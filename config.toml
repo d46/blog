@@ -1,0 +1,8 @@
+baseUrl = "https://d46.github.io/blog"
+CanonifyUrls = true
+languageCode = "en-us"
+title = "Daghan Gunay's Blog"
+publishDir = "public"
+
+[params]
+	description = "Hello from star-d46.. Anybody out there ?"

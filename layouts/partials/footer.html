@@ -1,0 +1,28 @@
+	<footer>&copy; Theme by Jessie Frazelle 2016
+		<a class="pull-right" href="https://github.com/jessfraz/blog" target="_blank">Theme by @jessfraz</a>
+	</footer>
+
+	<script src="/js/prettify/prettify.js"></script>
+
+    <script>
+        function doPrettyPrint(){
+            pres=document.getElementsByTagName('pre');
+            for (i=0; i < pres.length; i++) {
+                pres[i].className+=" prettyprint";
+            }
+            prettyPrint();
+        }
+    </script>
+
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-69892600-2"></script>
+	<script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'UA-69892600-2');
+	</script>
+
+	</body>
+</html>

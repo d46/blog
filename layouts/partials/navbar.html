@@ -1,0 +1,17 @@
+<header>
+	<nav>
+		<ul class="main">
+			<li><a href="https://d46.github.io/blog">{{ .Site.Title }}</a></li>
+		</ul>
+		<ul class="social">
+			{{ if .RSSLink }}
+			<li>
+				<a href="{{ .RSSLink }}" class="fa fa-rss" target="_blank"></a>
+			</li>
+			{{ end }}
+			<li>
+				<a class="fa fa-github" href="https://github.com/d46" target="_blank"></a>
+			</li>
+		</ul>
+	</nav>
+</header>
