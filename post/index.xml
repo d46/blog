@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Posts on Daghan Gunay&#39;s Blog</title>
+    <link>https://d46.github.io/blog/post/</link>
+    <description>Recent content in Posts on Daghan Gunay&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 27 Jul 2017 08:09:26 -0700</lastBuildDate>
+    
+	<atom:link href="https://d46.github.io/blog/post/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>A Rant on Usable Security</title>
+      <link>https://d46.github.io/blog/post/hello-world/</link>
+      <pubDate>Thu, 27 Jul 2017 08:09:26 -0700</pubDate>
+      
+      <guid>https://d46.github.io/blog/post/hello-world/</guid>
+      <description>I recently gave a talk at DevOps Days (slides) and it had a pretty great response. I&amp;rsquo;m still pretty care-mad about the topics it covered so I figured I would turn some key points from it into a blog post.
+The overall outline of the talk covered the past, present, and future of usable security. Let&amp;rsquo;s start with the past.
+The Past A lot of the security tooling of the past (that we still use today) require users to jump through a lot of hoops or learn a hard to grok interface.</description>
+    </item>
+    
+  </channel>
+</rss>

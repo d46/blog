@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+
+
+
+ <html class="no-js" lang="en"> 
+<head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="Hello from star-d46.. Anybody out there ?">
+
+	<title>Daghan Gunay&#39;s Blog: Home</title>
+
+	<link rel="canonical" href="https://d46.github.io/blog/hello-world/">
+	
+
+	
+<meta property="twitter:account_id" content="285428413" />
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="@jessfraz">
+<meta name="twitter:creator" content="@jessfraz">
+<meta name="twitter:title" content="Daghan Gunay&#39;s Blog: Home">
+<meta name="twitter:description" content="Hello from star-d46.. Anybody out there ?">
+<meta name="twitter:image:src" content="/img/share.png">
+<meta name="twitter:image:width" content="500">
+<meta name="twitter:image:height" content="500">
+<meta name="twitter:domain" content="blog.jessfraz.com">
+
+
+<meta property="og:title" content="How i managed my github page with submodules and hugo ?"/>
+<meta property="og:Section" content="website"/>
+<meta property="og:url" content="https://d46.github.io/blog/hello-world/"/>
+<meta property="og:image" content="/img/share.png"/>
+<meta property="og:site_name" content="Daghan Gunay&#39;s Blog"/>
+<meta property="fb:admins" content="1018260045"/>
+<meta property="og:description" content="Hello from star-d46.. Anybody out there ?"/>
+
+
+	<link rel="shortcut icon" href="https://d46.github.io/blog/favicon.ico">
+
+	<link rel="stylesheet" href="https://d46.github.io/blog/css/main.css" />
+	<script src="https://d46.github.io/blog/js/lib/modernizr-2.6.2.min.js"></script>
+</head>
+<body onload="doPrettyPrint()">
+
+<header>
+	<nav>
+		<ul class="main">
+			<li><a href="https://d46.github.io/blog">Daghan Gunay&#39;s Blog</a></li>
+		</ul>
+		<ul class="social">
+			
+			<li>
+				<a class="fa fa-github" href="https://github.com/d46" target="_blank"></a>
+			</li>
+		</ul>
+	</nav>
+</header>
+
+
+
+<div class="container single">
+	<article>
+		<h2>How i managed my github page with submodules and hugo ?</h2>
+		<div class="time">Wednesday, January 17, 2018</div>
+		
+
+<p>At the beginning of the beginning, It&rsquo;s my first blog post</p>
+
+<p>In my attempt, i will explain how did i refactor beauty and super simple theme from <a href="https://twitter.com/jessfraz">@jessfraz</a> and how i managed my github pages with submodules</p>
+
+<p>First of all thank you for your theme <a href="https://twitter.com/jessfraz">@jessfraz</a>.</p>
+
+<p>It&rsquo;s a broad cast to the emptiness. To emptiness of my mind..</p>
+
+<p><img src="https://d46.github.io/blog/img/giphy.gif" alt="emptiness" /></p>
+
+<p>I decided to handle my github pages with much more handy way.
+Before making my personal website on github pages, i have been noticed to holding multiple projects in a single repository impeling the code base to unmaintainable. Then i figured out to adding my projects as a sub module into the master branch could fix that complication.</p>
+
+<p>HERE WE GO!</p>
+
+<p>Lets fork and pull <a href="https://github.com/jessfraz/blog">https://github.com/jessfraz/blog</a></p>
+
+<pre><code class="language-sh">git clone https://github.com/d46/blog
+</code></pre>
+
+<p>Jess has been storing her blog in AWS but we are not going to use AWS in accordance with you could erase Dockerfile or you can compile your blog with containerized hugo. Also we are not use Makefile.</p>
+
+<p>Now open your personal github page repo in accordance with this documentation
+<a href="https://pages.github.com/">https://pages.github.com/</a></p>
+
+<h4 id="ok">Ok..</h4>
+
+<p>Now our goal will be publish the generated files by hugo into the blog/gh-pages branch and move as a submodule into your github pages repo xx.github.io/master</p>
+
+<p>Final structure going to look like this.</p>
+
+<ul>
+<li>master
+
+<ul>
+<li>blog/gh-pages   -&gt; xxx.github.io/blog</li>
+<li>resume/gh-pages -&gt; xxx.github.io/resume</li>
+</ul></li>
+</ul>
+
+<p>The point of doing this is Github pages are only show master branch!</p>
+
+<h4 id="now-lets-start-with-blog">Now lets start with blog.</h4>
+
+<p>Create gh-pages using with orphan branch from master.</p>
+
+<p>Oprhan branch creates a tree from some commit point and it is being the root of a new history totally disconnected from all the other branches and commits.</p>
+
+<p><a href="https://git-scm.com/docs/git-checkout/1.7.3.1#git-checkout---orphan">git-checkout&mdash;orphan</a></p>
+
+<pre><code class="language-sh">git checkout --orphan gh-pages
+git reset --hard
+git commit --allow-empty -m &quot;Wow&quot;
+git push origin gh-pages
+git checkout master
+</code></pre>
+
+<p>Now we had gh-pages witouth history commits. In our approach we need to add our public directory in master branch to gh-pages repo with worktree.</p>
+
+<h4 id="adding-working-tree">Adding working tree</h4>
+
+<p>Worktree is allowing us to manage a multiple working trees in same repo.</p>
+
+<pre><code class="language-sh"># Add public directory  as a worktree in to gh-pages branch
+git worktree add -B gh-pages public origin/gh-pages
+</code></pre>
+
+<p>Compiling hugo and publishing static files</p>
+
+<pre><code class="language-sh">hugo
+cd public
+git add --all
+git commit --amend --no-edit
+git push origin gh-pages -f
+</code></pre>
+
+<p>When you switch the master branch to the gh-pages you will see there is just a static files.</p>
+
+<p>Throught the final steps we are going to add gh-pages branch as a submodule in to the github pages repo xx.github.io/master</p>
+
+<h4 id="adding-as-a-submodule">Adding as a submodule</h4>
+
+<p>Go to your github page&rsquo;s repo directory and make submodule.</p>
+
+<p>Submodules is allowing us to mount one repository inside another</p>
+
+<pre><code class="language-sh">git submodule add -b gh-pages https://github.com/xxx/blog.git blog
+git add .
+git commit -m &quot;Wow&quot;
+git push origin master
+</code></pre>
+
+<p>Don&rsquo;t forget to change the xxx with your username.</p>
+
+<p>Now that makes xxx.github.io repo like this
+- master
+    - blog/gh-pages   -&gt; xxx.github.io/blog</p>
+
+<p>Check your web page. xxx.github.io/blog. It is trigger the blog/gh-pages/index.html file.</p>
+
+<p>Also here are some automation scripts to publish your changes</p>
+
+<p>release.sh for your blog/master</p>
+
+<pre><code class="language-sh">#!/usr/bin/env sh
+set -eo pipefail
+
+echo &quot;Removing public directory&quot;
+rm -rf public
+git worktree prune || 
+echo &quot;Removing gh-pages branch&quot;
+git branch -D gh-pages || 
+
+echo &quot;Add work tree for gh-pages of public directory&quot;
+git worktree add -f -b gh-pages public origin/gh-pages
+
+echo &quot;Building site with hugo&quot;
+hugo --buildDrafts
+
+if [ ! -d public ]; then
+	echo &quot;Something went wrong we should have a public folder.&quot;
+fi
+
+cd public
+git add .
+git commit --amend --no-edit
+git push origin gh-pages -f
+</code></pre>
+
+<p>release.sh to github page repo</p>
+
+<pre><code class="language-sh">#!/usr/bin/env sh
+set -eo pipefail
+
+git submodule add -b gh-pages -f https://github.com/xxx/blog.git blog
+
+# Commit changes
+git add .
+git commit --amend --no-edit
+git push origin master -f
+</code></pre>
+
+<p>Don&rsquo;t forget to change the xxx with your username.</p>
+
+<p>Running sh files will do whole taks for you. Don&rsquo;t forget. First run on blog repo&rsquo;s release.sh and after xxx.github.io repo&rsquo;s release.sh</p>
+
+	</article>
+</div>
+
+	<footer>&copy; Theme by Jessie Frazelle 2016
+		<a class="pull-right" href="https://github.com/jessfraz/blog" target="_blank">Theme by @jessfraz</a>
+	</footer>
+
+	<script src="https://d46.github.io/blog/js/prettify/prettify.js"></script>
+
+    <script>
+        function doPrettyPrint(){
+            pres=document.getElementsByTagName('pre');
+            for (i=0; i < pres.length; i++) {
+                pres[i].className+=" prettyprint";
+            }
+            prettyPrint();
+        }
+    </script>
+
+	
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-69892600-2"></script>
+	<script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'UA-69892600-2');
+	</script>
+
+	</body>
+</html>

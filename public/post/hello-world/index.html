@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+
+
+
+ <html class="no-js" lang="en"> 
+<head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="The past, present, and future of usable security. With a focus on containers.">
+
+	<title>Daghan Gunay&#39;s Blog: A Rant on Usable Security</title>
+
+	<link rel="canonical" href="https://d46.github.io/blog/post/hello-world/">
+	
+
+	
+<meta property="twitter:account_id" content="285428413" />
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="@jessfraz">
+<meta name="twitter:creator" content="@jessfraz">
+<meta name="twitter:title" content="Daghan Gunay&#39;s Blog: A Rant on Usable Security">
+<meta name="twitter:description" content="The past, present, and future of usable security. With a focus on containers.">
+<meta name="twitter:image:src" content="/img/share.png">
+<meta name="twitter:image:width" content="500">
+<meta name="twitter:image:height" content="500">
+<meta name="twitter:domain" content="blog.jessfraz.com">
+
+
+<meta property="og:title" content="A Rant on Usable Security"/>
+<meta property="og:Section" content="website"/>
+<meta property="og:url" content="https://d46.github.io/blog/post/hello-world/"/>
+<meta property="og:image" content="/img/share.png"/>
+<meta property="og:site_name" content="Daghan Gunay&#39;s Blog"/>
+<meta property="fb:admins" content="1018260045"/>
+<meta property="og:description" content="The past, present, and future of usable security. With a focus on containers."/>
+
+
+	<link rel="shortcut icon" href="https://d46.github.io/blog/favicon.ico">
+
+	<link rel="stylesheet" href="https://d46.github.io/blog/css/main.css" />
+	<script src="https://d46.github.io/blog/js/lib/modernizr-2.6.2.min.js"></script>
+</head>
+<body onload="doPrettyPrint()">
+
+<header>
+	<nav>
+		<ul class="main">
+			<li><a href="https://d46.github.io/blog">Daghan Gunay&#39;s Blog</a></li>
+		</ul>
+		<ul class="social">
+			
+			<li>
+				<a class="fa fa-github" href="https://github.com/d46" target="_blank"></a>
+			</li>
+		</ul>
+	</nav>
+</header>
+
+
+
+<div class="container single">
+	<article>
+		<h2>A Rant on Usable Security</h2>
+		<div class="time">Thursday, July 27, 2017</div>
+		
+
+<p>I recently gave a talk at DevOps Days
+(<a href="https://docs.google.com/a/jessfraz.com/presentation/d/1QnakgUC8AaNydPZCmKGYYja8gs2WoHbHRSjioIVdD9g/edit?usp=drivesdk">slides</a>)
+and it had a pretty great response. I&rsquo;m still pretty care-mad about the topics
+it covered so I figured I would turn some key points from it into a blog post.</p>
+
+<p>The overall outline of the talk covered the past, present, and future of
+usable security. Let&rsquo;s start with the past.</p>
+
+<h2 id="the-past">The Past</h2>
+
+<p>A lot of the security tooling of the past (that we still use today)
+require users to jump through a lot of hoops or learn a hard to grok interface.
+One of the examples I used was GPG. Contrary to popular opinion, I actually
+don&rsquo;t find GPG entirely unusable. I obviously agree that it could be easier
+to use, rotate keys, revoke keys blah blah blah. While I find it not exactly
+terrible, I can see and completely understand why the majority of
+criticism I hear about GPG is that it is hard to use.</p>
+
+<p>There is a point at which better security comes at the expense of convenience.
+This needs to stop happening. Stop compromising convenience for security.
+Instead find the right balance between the two. Doing this takes collaboration
+from both security engineers and software engineers.</p>
+
+<p>Dave Cheney recently had a great tweet.</p>
+
+<p><blockquote class="twitter-tweet" data-lang="en"><p lang="en" dir="ltr">Why is all software shit? Today I discovered the <a href="https://twitter.com/duosec">@duosec</a> API returns 200 even if someone denies the 2fa request.</p>&mdash; Dαve Cheney (@davecheney) <a href="https://twitter.com/davecheney/status/889725425781424129">July 25, 2017</a></blockquote>
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script></p>
+
+<p>I love this tweet because it reeks of the stench that only security engineers
+built this API. Most software engineers I know would decide to use an HTTP
+status code&hellip; I mean that&rsquo;s what they are for. ;)</p>
+
+<p>When you combine expertise in different areas you build better products. This is
+not rocket science. However egos tend to get in the way as well as biases
+towards people who know and like the same things you do. I assure you,
+though, when security and software engineers work together
+truly usable security will be the outcome.</p>
+
+<h2 id="the-present">The Present</h2>
+
+<p>A lot of the content for this portion of the talk focused on how containers make
+securing your infrastructure easier. I will touch on some of that but if you
+wish to know more you should checkout the
+<a href="https://docs.google.com/a/jessfraz.com/presentation/d/1QnakgUC8AaNydPZCmKGYYja8gs2WoHbHRSjioIVdD9g/edit?usp=drivesdk">slides</a>
+or some of my other blog posts on container security.</p>
+
+<p>Two key features in Docker are the default AppArmor and Seccomp profiles.
+AppArmor and Seccomp are Linux Security Modules that are not exactly usable
+by someone who is unfamiliar with either.</p>
+
+<p>AppArmor can control and audit various process actions such as file
+(read, write, execute, etc) and system functions (mount, network tcp, etc).
+It has its own meta language, so to speak, and I actually have a repo that changes
+the docs for it to more a readable format via a cron job:
+<a href="https://github.com/jessfraz/apparmor-docs">github.com/jessfraz/apparmor-docs</a>.
+The default profile for AppArmor does super sane things like preventing writing to
+<code>/proc/{num}</code>, <code>/proc/sys</code>, <code>/sys</code> and preventing <code>mount</code> to name a few.</p>
+
+<p>Syscall filters allow an application to define
+what syscalls it allows or denies. The default in Docker is a whitelist that I
+initially wrote. Some of the key things it blocks are:</p>
+
+<ul>
+<li><code>add_key</code>, <code>keyctl</code>, <code>request_key</code>: Prevent containers from using the kernel
+keyring, which is not namespaced. I wrote a blog post on
+<a href="https://blog.jessfraz.com/post/two-objects-not-namespaced-linux-kernel/">Two Objects not Namespaced by the Linux Kernel</a>
+and the keyring was one I mentioned.</li>
+<li><code>clone</code>, <code>unshare</code>: Deny cloning new namespaces. Also gated by <code>CAP_SYS_ADMIN</code>
+for <code>CLONE_*</code> flags, except <code>CLONE_USERNS</code>. I specifically wanted to block
+cloning new user namespaces inside containers because they are notorious
+for being points of entry for kernel bugs.</li>
+</ul>
+
+<p>There also is an
+<a href="https://github.com/moby/moby/blob/52f32818df8bad647e4c331878fa44317e724939/docs/security/seccomp.md#syscalls-blocked-by-the-default-profile">entire document that I started in the docker repo</a>
+that outlines what we block and why.</p>
+
+<p>Having written the default seccomp profile for Docker I am pretty familiar with
+how hard this would be for other people. It requires a deep knowledge of the
+application being contained and the syscalls it requires. This was also a quite
+terrifying feature to add to Docker. When I added it, Docker was already very
+popular and if anything would break in a big way it would be on the front page
+of hacker news and all the maintainers would have a very bad day. So turning
+on something that will <code>EPERM</code> by default if we left out any important syscall
+is terrifying. I had stress nightmares for weeks. In the end everything went
+much smoother than I feared but that was also after HEAVY HEAVY testing. Luckily
+I run super obscure things in containers so I even caught that we left out <code>send</code>
+and <code>recv</code> right before the release by running Skype (a 32 bit application) in
+a container.</p>
+
+<p>By making a default for all containers, we can secure a very large amount of
+users without them even realizing it&rsquo;s happening. This leads perfectly into
+my ideas for the future and continuing this motion of making security
+on by default and invisible to users.</p>
+
+<h2 id="the-future">The Future</h2>
+
+<p>I tend to have pretty weird brain child ideas and this is one of them.
+I started thinking about where else a kernel feature like seccomp could easily
+be integrated and used by a large number of people. The answer is&hellip;
+programming languages. I do work with the Go team and as a full content warning
+none of this crazy that follows is in any way endorsed by them. ;)</p>
+
+<p>The idea I had is to do <strong>build-time generated</strong> seccomp filters that will be
+<strong>applied on run</strong>.</p>
+
+<h4 id="why-generate-seccomp-filters-at-build-time">Why generate seccomp filters at <strong>build-time</strong>?</h4>
+
+<p>Generating security filters/profiles at runtime has been done in the past
+&amp; failed&hellip; over and over and over again. Something is always missed while
+profiling the application. You cannot guarantee that everything that your
+application will do will be called while in this profiling phase. Unless of
+course you have 100% test coverage, which if you do: Good For You. When the
+&ldquo;thing that was missed&rdquo; is called and blocked, users will just turn off the
+&ldquo;security.&rdquo; This happens all the time with things like SELinux and AppArmor.</p>
+
+<p>By generating filters at build-time we can ensure ALL code is included in the
+filter. I wrote a POC of this and I showed it at
+<a href="https://kiwicon.org/the-con/talks/#e253">Kiwicon</a>.</p>
+
+<p>There are three problems though.</p>
+
+<ol>
+<li><p>Executing other binaries. I can&rsquo;t know what syscalls the binary being called
+is going to use so we are back at square one.</p>
+
+<pre><code>package main
+
+import (
+    &quot;fmt&quot;
+    &quot;log&quot;
+    &quot;os/exec&quot;
+)
+
+func main() {
+    cmd := exec.Command(&quot;myprogram&quot;)
+    out, err := cmd.CombinedOutput()
+    if err != nil {
+        log.Fatal(err)
+    }
+    fmt.Printf(&quot;%s\n&quot;, out)
+}
+</code></pre></li>
+
+<li><p>Plugins. This problem is solvable in that <em>if</em> this feature was to exist
+we could export at the plugin build time the seccomp filters to a
+field in the ELF binary or something similar.</p>
+
+<pre><code>func main() {
+    p, err := plugin.Open(&quot;plugin_name.so&quot;)
+    if err != nil {
+        log.Fatal(err)
+    }
+    v, err := p.Lookup(&quot;V&quot;)
+    if err != nil {
+        log.Fatal(err)
+    }
+    fmt.Printf(&quot;%#v\n&quot;, v)
+}
+</code></pre></li>
+
+<li><p>Sending arbitrary arguments to <code>syscall.RawSyscall</code> and similar.</p>
+
+<pre><code>func main() {
+    if len(os.Args) &lt;= 3 {
+        log.Fatal(&quot;must pass 4 arguments to syscall.RawSyscall&quot;)
+    }
+    r1, r2, errno := syscall.RawSyscall(strToUintptr(os.Args[0]),
+        strToUintptr(os.Args[1]),
+        strToUintptr(os.Args[2]),
+        strToUintptr(os.Args[3]))
+    if errno != 0 {
+        log.Fatalf(&quot;errno: %#v&quot;, errno)
+    }
+    fmt.Printf(&quot;r1: %#v\nr2: %#v\n&quot;, r1, r2)
+}
+func strToUintptr(s string) uintptr {
+    return *(*uintptr)(unsafe.Pointer(&amp;s))
+}
+</code></pre></li>
+</ol>
+
+<p>While this is not perfect by any stretch of the imagination I believe it should
+open your mind to what <em>could</em> be possible in the future. Hopefully my dream
+of making binaries sandbox themselves will eventually get there. I know I won&rsquo;t
+stop until it does. ;) Overall, I would like you to remember to find the
+right balance between secure AND usable. Don’t break users and get security
+engineering and software engineering working together!</p>
+
+	</article>
+</div>
+
+	<footer>&copy; Jessie Frazelle 2016
+		<a class="pull-right" href="https://github.com/jessfraz/blog" target="_blank">@jessfraz</a>
+	</footer>
+
+	<script src="https://d46.github.io/blog/js/prettify/prettify.js"></script>
+
+    <script>
+        function doPrettyPrint(){
+            pres=document.getElementsByTagName('pre');
+            for (i=0; i < pres.length; i++) {
+                pres[i].className+=" prettyprint";
+            }
+            prettyPrint();
+        }
+    </script>
+
+	
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-69892600-2"></script>
+	<script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'UA-69892600-2');
+	</script>
+
+	</body>
+</html>

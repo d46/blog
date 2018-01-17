@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Daghan Gunay&#39;s Blog</title>
+    <link>https://d46.github.io/blog/</link>
+    <description>Recent content on Daghan Gunay&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 13 Apr 2018 11:09:44 +0300</lastBuildDate>
+    
+	<atom:link href="https://d46.github.io/blog/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Angular4 2018 Best Practice Part 2</title>
+      <link>https://d46.github.io/blog/angular4-2018-best-practice-part-2/</link>
+      <pubDate>Fri, 13 Apr 2018 11:09:44 +0300</pubDate>
+      
+      <guid>https://d46.github.io/blog/angular4-2018-best-practice-part-2/</guid>
+      <description>In Part 2 we are going to add more features and introduce to usage of effect and entitiy. If you didn&amp;rsquo;t read start over here Angular4 2018 Best Practice Part 1
+Update store Distpatch To update or modify the store you have trigger reducers.</description>
+    </item>
+    
+    <item>
+      <title>Angular4 Best Practices Part 1</title>
+      <link>https://d46.github.io/blog/angular4-2018-best-practice-part-1/</link>
+      <pubDate>Tue, 10 Apr 2018 12:24:17 +0300</pubDate>
+      
+      <guid>https://d46.github.io/blog/angular4-2018-best-practice-part-1/</guid>
+      <description>I will explain the best practices for Angular in nowadays. We will also introduce of angular packages which are store, effects, router-store, store-devtools, entity, schematics.
+@ngrx/schematics It provides blueprints for generating files when building out feature areas using NgRx like Action, Container, Effect, Entity, Feature, Reducer and Store.
+At the beginning, create basic angular app with the following orders
+# First, create an angular app ng new ngrx-best-practices-2018 cd ngrx-store-playground // Install the schematics yarn add @ngrx/schematics --dev // Install the NgRx dependencies.</description>
+    </item>
+    
+    <item>
+      <title>How i managed my github page with submodules and hugo ?</title>
+      <link>https://d46.github.io/blog/hello-world/</link>
+      <pubDate>Wed, 17 Jan 2018 19:33:58 +0300</pubDate>
+      
+      <guid>https://d46.github.io/blog/hello-world/</guid>
+      <description>At the beginning of the beginning, It&amp;rsquo;s my first blog post
+In my attempt, i will explain how did i refactor beauty and super simple theme from @jessfraz and how i managed my github pages with submodules
+First of all thank you for your theme @jessfraz.
+It&amp;rsquo;s a broad cast to the emptiness. To emptiness of my mind..
+I decided to handle my github pages with much more handy way.</description>
+    </item>
+    
+  </channel>
+</rss>
