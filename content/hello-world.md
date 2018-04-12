@@ -95,6 +95,8 @@ git add .
 git commit -m "Wow"
 git push origin master
 ```
+Don't forget to change the xxx with your username.
+
 Now that makes xxx.github.io repo like this
 - master
     - blog/gh-pages   -> xxx.github.io/blog
@@ -108,11 +110,20 @@ release.sh for your blog/master
 #!/usr/bin/env sh
 set -eo pipefail
 
+echo "Removing public directory"
+rm -rf public
+git worktree prune || 
+echo "Removing gh-pages branch"
+git branch -D gh-pages || 
+
+echo "Add work tree for gh-pages of public directory"
+git worktree add -f -b gh-pages public origin/gh-pages
+
 echo "Building site with hugo"
-hugo
+hugo --buildDrafts
 
 if [ ! -d public ]; then
-    echo "Something went wrong we should have a public folder."
+	echo "Something went wrong we should have a public folder."
 fi
 
 cd public
@@ -126,17 +137,14 @@ release.sh to github page repo
 #!/usr/bin/env sh
 set -eo pipefail
 
-# Update Blog module
-cd blog
-git checkout gh-pages
-git pull origin master
-cd ..
+git submodule add -b gh-pages -f https://github.com/xxx/blog.git blog
 
 # Commit changes
 git add .
 git commit --amend --no-edit
 git push origin master -f
 ```
+Don't forget to change the xxx with your username.
 
 Running sh files will do whole taks for you. Don't forget. First run on blog repo's release.sh and after xxx.github.io repo's release.sh
 
