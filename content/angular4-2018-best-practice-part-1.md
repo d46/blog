@@ -19,6 +19,9 @@ Store
 We will also explain and going to use all these subjects one by one..
 
 ```javascript
+# First, create an angular app
+ng new ngrx-best-practices-2018
+
 // Install the schematics
 yarn add @ngrx/schematics --dev
 
@@ -106,9 +109,6 @@ When the data and commands are send to reducer function the state changes as in 
 ## Simple ngrx/store usage
 
 ```sh
-# First, create an angular app
-ng new ngrx-store-playground
-
 # Add ngrx store library
 cd ngrx-store-playground
 yarn add @ngrx/store
