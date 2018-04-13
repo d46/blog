@@ -306,4 +306,4 @@ ng serve -o
 ![count0](/img/angular4-2018-best-practice-001.png)
 
 
-In that part ve used shematics and built a tiny store. Next chapter, We are going to use other packages.
+In that part, we used shematics to built a tiny store. Next chapter, We are going to use other packages.
