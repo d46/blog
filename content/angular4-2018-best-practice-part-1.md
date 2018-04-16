@@ -4,23 +4,24 @@ date: 2018-04-10T12:24:17+03:00
 draft: false
 ---
 
-I'm going to explain, what are the best practices for Angular in nowadays. We will also introduce in angular packages that are store, effects, router-store, store-devtools, entity, schematics.
+I will explain the best practices for Angular in nowadays. We will also introduce angular packages which are store, effects, router-store, store-devtools, entity, schematics.
 
 # @ngrx/schematics
-It's a utility tool to generate 
+It provides blueprints for generating files when building out feature areas using NgRx like
 Action, 
 Container,
 Effect,
 Entity,
 Feature,
 Reducer and
-Store
+Store.
+ 
 
-We will also explain and going to use all these subjects one by one..
-
+At the beginning, create basic angular app with the following orders
 ```javascript
 # First, create an angular app
 ng new ngrx-best-practices-2018
+cd ngrx-store-playground
 
 // Install the schematics
 yarn add @ngrx/schematics --dev
@@ -35,13 +36,13 @@ It's a store management library for ngrx but first, we have to get the idea behi
 ## What are these states? 
 States come from state pattern.
 
-There are three subjects we have to know about in this pattern.
+There are three subjects we should know about this.
 
-First is a store. You can call it's a giant object or final data.
+First is store, giant object or final data of our application.
 
-Second is a state. States are particularly actions/status in the flow. For example, the car on tier 2 is telling us; The car's state for the tier is on two. The car's state for the window is open/true.
+Second is state, particularly action/status of the application. For example, the car on tier 2 means; The car's state for the tier is on two. In other words, the application tier is 2 (Application=Car). The car's state for the window is open/true.
 
-Third are reducers. They are a bunch of functions/methods that help to change states in the store.
+Third are reducers, bunch of functions/methods help to change the states on the store.
 
 Let's explain with some hack.
 
@@ -104,23 +105,22 @@ reducers(data,'toggleWindow'); // { tier: 1, window: true }
 
 
 ```
-When the data and commands are send to reducer function the state changes as in order.
+Calling reducers with the required parameters which are data(data=store) and action type('increaseTier') occur to alteration on the store. As such, the origin of mutation starts and depends on just two variable. 
 
 ## Simple ngrx/store usage
 
 ```sh
 # Add ngrx store library
-cd ngrx-store-playground
 yarn add @ngrx/store
 ``` 
 
-Every module has own stores
+Every module has own store
 ```sh
 # Generate store for app-module
-ng generate store State --root --module app.module.ts --collection @ngrx/schematics
+ng generate store State --store --module app.module.ts --collection @ngrx/schematics
 ```
 
-After that the store imports automatically by @ngrx/schematics into the app.module
+Schematics are allow to create state module files. Along with, injects required lines into the app.module
 
 ```javascript
 import { BrowserModule } from '@angular/platform-browser';
@@ -151,7 +151,7 @@ export class AppModule { }
 
 ```
 
-Open reducers/index.ts that we generated before. 
+Open reducers/index.ts which we generated. 
 
 ```javascript
 import {
@@ -175,18 +175,17 @@ export const reducers: ActionReducerMap<State> = {
 export const metaReducers: MetaReducer<State>[] = !environment.production ? [] : [];
 ```
 
-Now we are going to implement the state pattern that we have already written before. There have been three subjects state, store, reducers. In reducers file ActionReducerMap and MetaReducer are two variables about for reducers. But we are going to use ActionReducerMap just for now.
+We will implement the state pattern which we created on the upper section but in a way of angular store. 
+Starting over reducers, ActionReducerMap and MetaReducer are two variables. Along with to make a mutation for store.
 
-
-## Define a count interface for state 
+## Define a count into the State interface
 ```javascript
 export interface State {
   count: number
 }
 ```
 
-Remember, We were using reducer for car tier example like this
-
+Remember, on the upper section of car example, reducer usage was like this.
 ```javascript
 // Past example
 
@@ -200,8 +199,7 @@ const reducers = (data, type) => {
 ...
 ```
 
-Reducer has been taken data and type as a parameter to change the state with functions as in order by type on the past example but for now we are putting on that to the next stage for modify the data by type
-
+In conclusion, We will define function as like as increaseTier. Afterwards, We will add this function to reducer container like ActionReducerMap.
 
 ## Define a reducer for count
 ```javascript
@@ -218,8 +216,7 @@ export const reducers: ActionReducerMap<State> = {
 };
 ```
 
-When reducer is called then it returns an object
-
+On calling state it returns.. 
 ```javascript
 {
  count: function reducer(count = 0):number {
@@ -262,12 +259,14 @@ export const metaReducers: MetaReducer<State>[] = !environment.production ? [] :
 
 
 ## Observable
-In the app-component file, we are using Observable to pipe callbacks from the store. Observable is working like Streams in any other additional languages. It is allowing us to chain more than one event instead of Promise chains. Observable also has the advantage over Promise to be cancelable.
+In the app-component file, we are using Observable to make a pipe callback and fetch the data by this callback from the store. Observable is works like a stream in any other additional languages. It is allowing us to chain more than one event instead of Promise chains. Observable also has the advantage over Promise to be cancelable.
 
+## Selector
+Use select operator to select slice(s) of state. It is a practical solution for the confusion of banana jungle problem. On the module, we update the current state. Afterwards, we have to find the related state in the whole store of every reducer. On conclude, using selectors prevent this repetition.
 
 
 ## app.component.ts
-Use select operator to select slice(s) of state. In that case we have only count state.
+
 ```javascript
 import { Component } from '@angular/core';
 import { Store, select, createSelector } from '@ngrx/store';
@@ -282,22 +281,24 @@ import { State } from './reducers'
 
 export class AppComponent {
   title = 'app';
+  //Variable as Observable
   count$: Observable<number>;
   
   constructor(private store: Store<State>) {
+    // Selector
     this.count$ = store.pipe(select('count'));
   }
 }
 ```
 
 ## app.component.html
-We are using async pipe for resolve promise or observable objects.
+We use async pipe for resolve promise or observable objects.
 
 ```html
 <div>Current Count: {{ count$ | async }}</div>
 ```
 
-Now we have a store with initialState.
+Now we have store with initialState.
 
 ```sh
 ng serve -o
